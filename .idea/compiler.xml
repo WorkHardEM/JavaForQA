@@ -11,6 +11,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="JavaForQA" target="1.5" />
+      <module name="JavaForQA (1)" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>
