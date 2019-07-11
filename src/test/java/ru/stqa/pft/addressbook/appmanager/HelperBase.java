@@ -33,4 +33,12 @@ public class HelperBase {
     }
   }
 
+  protected boolean isElementPresent(By locator) {
+    try {
+      driver.findElement(locator);
+      return true;
+    } catch (NoSuchElementException ex) {
+      return false;
+    }
+  }
 }
