@@ -2,3 +2,6 @@
 target/
 .idea/vcs.xml
 .idea/libraries/*
+src/main/resources/groups.csv
+
+
