@@ -6,11 +6,14 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.BrowserType;
 
+import java.io.*;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import static org.testng.Assert.fail;
 
 public class ApplicationManager {
+  private final Properties properties;
   WebDriver driver;
 
   private SessionHelper sessionHelper;
@@ -23,9 +26,13 @@ public class ApplicationManager {
 
   public ApplicationManager(String browser) {
     this.browser = browser;
+    properties = new Properties();
   }
 
-  public void init() {
+  public void init() throws IOException {
+    properties.load(new FileReader(new File("src/main/resources/qa.properties")));
+
+
     if (browser.equals(BrowserType.CHROME)) {
       driver = new ChromeDriver();
     } else if (browser.equals(BrowserType.FIREFOX)) {
@@ -34,12 +41,12 @@ public class ApplicationManager {
       driver = new InternetExplorerDriver();
     }
     driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
-    driver.get("http://localhost/addressbook");
+    driver.get(properties.getProperty("qa.baseUrl"));
     groupHelper = new GroupHelper(driver);
     navigationHelper = new NavigationHelper(driver);
     sessionHelper = new SessionHelper(driver);
     contactHelper = new ContactHelper(driver);
-    sessionHelper.login("admin", "secret");
+    sessionHelper.login(properties.getProperty("qa.login"), properties.getProperty("qa.password"));
   }
 
   public void stop() {
