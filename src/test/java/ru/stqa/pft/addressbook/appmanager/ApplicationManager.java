@@ -23,6 +23,7 @@ public class ApplicationManager {
 
   private StringBuffer verificationErrors = new StringBuffer();
   private String browser;
+  private DbHelper dbHelper;
 
   public ApplicationManager(String browser) {
     this.browser = browser;
@@ -32,6 +33,7 @@ public class ApplicationManager {
   public void init() throws IOException {
     properties.load(new FileReader(new File("src/main/resources/qa.properties")));
 
+    dbHelper = new DbHelper();
 
     if (browser.equals(BrowserType.CHROME)) {
       driver = new ChromeDriver();
@@ -47,6 +49,7 @@ public class ApplicationManager {
     sessionHelper = new SessionHelper(driver);
     contactHelper = new ContactHelper(driver);
     sessionHelper.login(properties.getProperty("qa.login"), properties.getProperty("qa.password"));
+
   }
 
   public void stop() {
@@ -67,5 +70,9 @@ public class ApplicationManager {
 
   public ContactHelper contact() {
     return contactHelper;
+  }
+
+  public DbHelper db() {
+    return dbHelper;
   }
 }
